@@ -1,3 +1,5 @@
+package pt.courses.uva;
+
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.Scanner;

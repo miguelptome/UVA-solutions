@@ -1,3 +1,5 @@
+package pt.courses.uva;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;

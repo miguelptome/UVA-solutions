@@ -1,10 +1,9 @@
 package pt.courses.uva.p297;
 
-public class FilledQuadrant implements Node {
+public class FilledQuadrant extends WeightedNode implements Node {
 
-    @Override
-    public String toString() {
-	return "F";
+    public FilledQuadrant(int weight) {
+	super(weight);
     }
     
     @Override
@@ -12,4 +11,9 @@ public class FilledQuadrant implements Node {
 	return true;
     }
 
+    @Override
+    public String toString() {
+	return "F"+getWeight();
+    }
+    
 }

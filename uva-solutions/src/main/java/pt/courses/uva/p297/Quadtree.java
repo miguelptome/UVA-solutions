@@ -20,13 +20,13 @@ public class Quadtree implements Node {
     }
  
     @Override
-    public String toString() {
-	return "P";
-    }
-
-    @Override
     public boolean isLeaf() {
 	return false;
+    }
+ 
+    @Override
+    public String toString() {
+	return "P";
     }
     
 }

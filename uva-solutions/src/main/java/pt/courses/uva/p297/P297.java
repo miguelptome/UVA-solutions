@@ -1,6 +1,7 @@
 package pt.courses.uva.p297;
 
 import java.io.PrintWriter;
+import java.io.ObjectInputStream.GetField;
 import java.util.Scanner;
 
 public class P297 {
@@ -20,6 +21,9 @@ public class P297 {
 	    
 	    dfsQuadtree(quadtree1, out);
 	    dfsQuadtree(quadtree2, out);
+	    
+	    out.println("There are " + numOfFilledPixels(quadtree1) + " black pixels.");
+	    out.println("There are " + numOfFilledPixels(quadtree2) + " black pixels.");
 	}
 		
 	out.flush();
@@ -28,10 +32,20 @@ public class P297 {
     }
     
     private static int numOfFilledPixels(Node quadtree) {
-	// TODO
-	// create a method to count the pixels of a given quadtree
-	// do a dfs at the tree and calculates the number of pixels based on the depth of the tree
-	return 0;
+	if (quadtree.isLeaf()) {
+	    try {
+        	return ((FilledQuadrant)quadtree).getWeight();
+	    }
+	    catch (ClassCastException e) {
+	    }
+	    return 0;
+	}
+	
+	int total = 0;
+	for (Node quadrant: ((Quadtree)quadtree).getQuadrants()) {
+	    total += numOfFilledPixels(quadrant);
+	}
+	return total;
     }
     
     private static void mergeQuadtree(Node quadtree1, char[] preOrder2, int[] currLetterIndex) {

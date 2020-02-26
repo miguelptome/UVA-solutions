@@ -1,7 +1,7 @@
 package pt.courses.uva.p297;
 
 import java.io.PrintWriter;
-import java.io.ObjectInputStream.GetField;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class P297 {
@@ -17,12 +17,13 @@ public class P297 {
 	    char[] preOrder2 = scn.next().toCharArray();
 	    
 	    Node quadtree1 = createQuadtree(preOrder1, new int[] { 0 }, 0);
-	    Node quadtree2 = createQuadtree(preOrder2, new int[] { 0 }, 0);
+//	    Node quadtree2 = createQuadtree(preOrder2, new int[] { 0 }, 0);
+	    Node quadtree2 = mergeQuadtree(quadtree1, preOrder2, new int[] { 0 }, 0);
 	    
-	    dfsQuadtree(quadtree1, out);
+//	    dfsQuadtree(quadtree1, out);
 	    dfsQuadtree(quadtree2, out);
 	    
-	    out.println("There are " + numOfFilledPixels(quadtree1) + " black pixels.");
+//	    out.println("There are " + numOfFilledPixels(quadtree1) + " black pixels.");
 	    out.println("There are " + numOfFilledPixels(quadtree2) + " black pixels.");
 	}
 		
@@ -48,10 +49,52 @@ public class P297 {
 	return total;
     }
     
-    private static void mergeQuadtree(Node quadtree1, char[] preOrder2, int[] currLetterIndex) {
-	// TODO 
-	// this method will receive the quadtree one and with switch case the pre-order string 2
-	// to each case take the action of keep the current branck or update it
+    // TODO
+    // merge two trees
+    // an alternative is to process the two trees first and then merge the both
+    // when one of the both are filled, keep filled
+    // when one of the both are empty, keep the other
+    // otherwise create a new quadtree with the result of the sub merge
+    
+    
+    
+    // FIX 
+    // this implementation does not work because when a node is filled on the tree
+    // the pre string is is not processed and we loose the sync bettwen the both.
+    private static Node mergeQuadtree(Node quadtree1, char[] preOrder2, int[] currLetterIndex, 
+	    	int nodeDepth) {
+	
+	if (quadtree1 instanceof FilledQuadrant)
+	    return quadtree1;
+	if (quadtree1 instanceof EmptyQuadrant)
+	    return createQuadtree(preOrder2, currLetterIndex, nodeDepth);
+	
+	switch (preOrder2[currLetterIndex[0]++]) {
+	case 'p':
+	    
+	    Quadtree quadtree = new Quadtree();
+	    for (Node quadrant: ((Quadtree)quadtree1).getQuadrants()) {
+		quadtree.addQuadrant(mergeQuadtree(quadrant, preOrder2, currLetterIndex, nodeDepth+1));
+	    }
+	    
+//	    // --
+//	    Iterator<Node> it = ((Quadtree)quadtree1).getQuadrants().iterator();
+//	    
+//	    while (it.hasNext()) {
+//		Node quadrant = it.next();
+//		quadrant = mergeQuadtree(quadrant, preOrder2, currLetterIndex, nodeDepth+1);
+//	    }
+	    
+//	    for (Node quadrant: ((Quadtree)quadtree1).getQuadrants()) {
+//		quadrant = mergeQuadtree(quadrant, preOrder2, currLetterIndex, nodeDepth+1);
+//	    }
+    	    return quadtree;
+    	case 'f':
+    	    return new FilledQuadrant(numOfPixelsAt(nodeDepth));
+    	case 'e':
+    	    return quadtree1;
+	}	
+	return null;
     }
     
     private static Node createQuadtree(char[] preOrder, int[] currLetterIndex, int nodeDepth) {

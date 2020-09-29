@@ -1,5 +1,10 @@
 # UVA-solutions
 
+## [Challenges solved using C](https://github.com/miguelptome/UVA-solutions/tree/master/uva-solutions/c)
+
+## [Challenges solved using Java](https://github.com/miguelptome/UVA-solutions/tree/master/uva-solutions/src/main/java/pt/courses/uva)
+
+
 ## P10050 - [Hartals](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=991)
 
 ## P10773 - [Back to Intermediate Math](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=1714)
